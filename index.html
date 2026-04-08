@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awnix Webs | Web Design & Development in Pattambi</title>
+    
+    <!-- Favicon using provided image -->
+    <link rel="icon" type="image/jpeg" href="https://z-cdn-media.chatglm.cn/files/c9b404a7-c7c8-470d-bef0-1a72342e210d.jpg?auth_key=1875640797-8c614c43f36047d5b202b99614288efb-0-cec280e8e53e29393f20c137bf608de3">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -37,6 +41,35 @@
         ::-webkit-scrollbar-thumb { background: #004B3D; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #00332a; }
 
+        /* Loader Styles */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #004B3D; /* Deep Emerald Background */
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-logo-pulse {
+            animation: pulse-scale 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse-scale {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         /* Animations */
         @keyframes reveal {
             from { opacity: 0; transform: translateY(30px); }
@@ -45,10 +78,6 @@
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
-        }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 75, 61, 0.15); }
-            50% { box-shadow: 0 0 40px rgba(0, 75, 61, 0.3); }
         }
         @keyframes marquee {
             0% { transform: translateX(0); }
@@ -66,7 +95,6 @@
         .delay-500 { animation-delay: 0.5s; }
 
         .float-animation { animation: float 6s ease-in-out infinite; }
-        .pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
         .marquee-track { animation: marquee 30s linear infinite; }
         .spin-slow { animation: spin-slow 20s linear infinite; }
 
@@ -170,17 +198,27 @@
 </head>
 <body class="bg-cream text-emerald antialiased overflow-x-hidden relative">
 
+    <!-- LOADING SCREEN -->
+    <div id="loader">
+        <div class="loader-logo-pulse flex flex-col items-center">
+            <img src="https://z-cdn-media.chatglm.cn/files/c9b404a7-c7c8-470d-bef0-1a72342e210d.jpg?auth_key=1875640797-8c614c43f36047d5b202b99614288efb-0-cec280e8e53e29393f20c137bf608de3" alt="Awnix Logo" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-xl shadow-2xl">
+            <h1 class="text-cream text-2xl md:text-4xl font-black tracking-[0.2em] mt-4 uppercase">Awnix</h1>
+        </div>
+    </div>
+
     <canvas id="particles" class="fixed inset-0 z-0 pointer-events-none opacity-60"></canvas>
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b border-transparent">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#hero" class="flex items-center gap-2 group">
-                <div class="w-10 h-10 rounded-xl bg-emerald/5 border border-emerald/20 flex items-center justify-center group-hover:bg-emerald group-hover:text-cream transition-all duration-300">
-                    <span class="iconify text-emerald group-hover:text-cream text-lg" data-icon="ph:code-bold"></span>
+            <!-- Updated Logo with Image -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-lg overflow-hidden border border-emerald/20 shadow-sm group-hover:shadow-emerald/20 transition-all duration-300">
+                    <img src="https://z-cdn-media.chatglm.cn/files/c9b404a7-c7c8-470d-bef0-1a72342e210d.jpg?auth_key=1875640797-8c614c43f36047d5b202b99614288efb-0-cec280e8e53e29393f20c137bf608de3" alt="Awnix Logo" class="w-full h-full object-cover">
                 </div>
                 <span class="text-emerald font-bold text-xl tracking-tight">Awnix<span class="text-emeraldLight">.</span></span>
             </a>
+            
             <div class="hidden md:flex items-center gap-8">
                 <a href="#about" class="nav-link relative text-sm font-medium tracking-tight text-emerald/70 hover:text-emerald transition-colors duration-300">About</a>
                 <a href="#services" class="nav-link relative text-sm font-medium tracking-tight text-emerald/70 hover:text-emerald transition-colors duration-300">Services</a>
@@ -216,7 +254,6 @@
 
     <!-- Hero Section -->
     <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden deco-grid">
-        <!-- Decorative Blobs -->
         <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-emerald/5 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-emerald/5 rounded-full blur-[100px] pointer-events-none"></div>
         
@@ -766,6 +803,20 @@
     <div id="toast" class="toast"></div>
 
     <script>
+        // --- Loader Logic ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            
+            // 1.5 seconds duration as requested
+            setTimeout(() => {
+                loader.classList.add('hidden'); // Fade out
+                // Optional: remove from DOM after transition
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500); 
+            }, 1500);
+        });
+
         // Particle System
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
@@ -794,7 +845,7 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(0, 75, 61, ${this.alpha})`; // Emerald Color
+                ctx.fillStyle = `rgba(0, 75, 61, ${this.alpha})`; 
                 ctx.shadowBlur = 15; ctx.shadowColor = 'rgba(0, 75, 61, 0.2)';
                 ctx.fill(); ctx.shadowBlur = 0;
             }
@@ -825,7 +876,7 @@
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 50) {
-                navbar.style.background = 'rgba(255, 253, 208, 0.9)'; // Cream bg
+                navbar.style.background = 'rgba(255, 253, 208, 0.9)'; 
                 navbar.style.backdropFilter = 'blur(12px)'; 
                 navbar.style.borderBottom = '1px solid rgba(0, 75, 61, 0.1)';
             } else { 
