@@ -19,18 +19,6 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes reveal-left {
-            from { opacity: 0; transform: translateX(-40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes reveal-right {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes reveal-scale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
@@ -94,27 +82,20 @@
         .service-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 2px;
             background: linear-gradient(90deg, transparent, #ef4444, transparent);
             transform: translateX(-100%);
             transition: transform 0.6s ease;
+            z-index: 2;
         }
         .service-card:hover::before { transform: translateX(0); }
 
         .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 9999;
-            transform: translateY(100px);
-            opacity: 0;
+            position: fixed; bottom: 30px; right: 30px;
+            padding: 16px 24px; border-radius: 8px;
+            font-size: 14px; font-weight: 500; z-index: 9999;
+            transform: translateY(100px); opacity: 0;
             transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
         }
         .toast.show { transform: translateY(0); opacity: 1; }
@@ -127,14 +108,10 @@
         }
         .mobile-menu.open { transform: translateX(0); }
 
-        .project-card { position: relative; overflow: hidden; background: #0a0a0a; }
-        .project-card .project-info {
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .project-card:hover .project-info { transform: translateY(0); }
-        .project-card:hover .project-img { transform: scale(1.05); filter: brightness(0.4); }
-        .project-img { transition: all 0.7s ease; }
+        .project-row { transition: all 0.4s ease; }
+        .project-row:hover { background: rgba(239,68,68,0.03); }
+        .project-row:hover .project-arrow { transform: translateX(4px); color: #ef4444; }
+        .project-row:hover .project-num { color: #ef4444; }
 
         .stat-number {
             display: inline-block;
@@ -146,17 +123,25 @@
 
         .pricing-card { transition: all 0.4s ease; }
         .pricing-card:hover { border-color: rgba(239,68,68,0.4); }
+        .pricing-card.featured { border-color: rgba(239,68,68,0.3); }
+        .pricing-card.featured:hover { border-color: rgba(239,68,68,0.6); transform: translateY(-4px); }
 
-        input:focus, textarea:focus, select:focus {
+        input:focus, textarea:focus {
             outline: none;
             border-color: #ef4444 !important;
             box-shadow: 0 0 0 1px rgba(239,68,68,0.3);
+        }
+
+        .deco-grid {
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
         }
     </style>
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-x-hidden">
 
-    <!-- Canvas Particle Background -->
     <canvas id="particles" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
     <!-- Navigation -->
@@ -209,7 +194,6 @@
     <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden">
         <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-red-500/3 rounded-full blur-[100px] pointer-events-none"></div>
-
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] pointer-events-none opacity-10">
             <div class="spin-slow w-full h-full rounded-full border border-white/10"></div>
         </div>
@@ -257,51 +241,61 @@
             <span class="text-red-500/20 text-[60px] mx-4">✦</span>
             <span class="text-[60px] font-black tracking-tighter text-white/[0.03] mx-8">UI/UX</span>
             <span class="text-red-500/20 text-[60px] mx-4">✦</span>
+            <span class="text-[60px] font-black tracking-tighter text-white/[0.03] mx-8">WEB DESIGN</span>
+            <span class="text-red-500/20 text-[60px] mx-4">✦</span>
+            <span class="text-[60px] font-black tracking-tighter text-white/[0.03] mx-8">DEVELOPMENT</span>
+            <span class="text-red-500/20 text-[60px] mx-4">✦</span>
+            <span class="text-[60px] font-black tracking-tighter text-white/[0.03] mx-8">BRANDING</span>
+            <span class="text-red-500/20 text-[60px] mx-4">✦</span>
+            <span class="text-[60px] font-black tracking-tighter text-white/[0.03] mx-8">UI/UX</span>
+            <span class="text-red-500/20 text-[60px] mx-4">✦</span>
         </div>
     </div>
 
     <!-- About Section -->
     <section id="about" class="relative py-24 md:py-32 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <span class="text-xs font-medium tracking-[0.2em] uppercase text-red-500 mb-4 block scroll-animate">Who We Are</span>
-                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-6 scroll-animate">
-                        A studio obsessed with <span class="gradient-text">pixel perfection</span>
-                    </h2>
-                    <p class="text-neutral-400 font-light leading-relaxed mb-6 scroll-animate">
-                        Awnix Webs is a premium website design and development studio. We don't just build websites — we engineer digital experiences that leave lasting impressions.
-                    </p>
-                    <div class="grid grid-cols-3 gap-6 scroll-animate">
-                        <div class="border-l border-red-500/30 pl-4">
-                            <div class="stat-number text-3xl md:text-4xl font-bold" data-target="50">0</div>
-                            <div class="text-neutral-500 text-xs font-medium tracking-wider uppercase mt-1">Projects</div>
-                        </div>
-                        <div class="border-l border-red-500/30 pl-4">
-                            <div class="stat-number text-3xl md:text-4xl font-bold" data-target="40">0</div>
-                            <div class="text-neutral-500 text-xs font-medium tracking-wider uppercase mt-1">Clients</div>
-                        </div>
-                        <div class="border-l border-red-500/30 pl-4">
-                            <div class="stat-number text-3xl md:text-4xl font-bold" data-target="100">0</div>
-                            <div class="text-neutral-500 text-xs font-medium tracking-wider uppercase mt-1">% Satisfaction</div>
-                        </div>
-                    </div>
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium tracking-[0.2em] uppercase text-red-500 mb-4 block scroll-animate">Who We Are</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight scroll-animate">
+                    A studio obsessed with <span class="gradient-text">pixel perfection</span>
+                </h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+                <p class="text-neutral-400 font-light leading-relaxed scroll-animate">
+                    Awnix Webs is a premium website design and development studio. We don't just build websites — we engineer digital experiences that leave lasting impressions. Every pixel, every animation, every interaction is intentional.
+                </p>
+                <p class="text-neutral-500 font-light leading-relaxed scroll-animate">
+                    From startups to established brands, we partner with ambitious people who understand that their website is their most powerful business asset. Based in Pattambi, serving clients worldwide.
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-6 scroll-animate">
+                <div class="text-center p-6 rounded-2xl border border-white/5 bg-neutral-950/50">
+                    <div class="stat-number text-4xl md:text-5xl font-bold mb-2" data-target="50">0</div>
+                    <div class="text-neutral-500 text-xs font-medium tracking-wider uppercase">Projects Delivered</div>
                 </div>
-                <!-- AI Generated Studio Image -->
-                <div class="relative scroll-animate">
-                    <div class="relative rounded-2xl overflow-hidden aspect-[4/5] bg-neutral-900">
-                        <img src="https://image.pollinations.ai/prompt/professional-minimalist-creative-design-studio-office-with-dark-walls-warm-ambient-lighting-imac-on-desk-8k-cinematic-photography?width=800&height=1000&nologo=true" alt="Awnix Studio" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    </div>
-                    <div class="absolute -bottom-6 -left-6 bg-[#0a0a0a] border border-white/10 rounded-xl p-5 float-animation pulse-glow">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-                                <span class="iconify text-red-500" data-icon="ph:rocket-launch-bold"></span>
-                            </div>
-                            <div>
-                                <div class="text-sm font-semibold">Fast Delivery</div>
-                                <div class="text-xs text-neutral-500">7-14 days avg</div>
-                            </div>
+                <div class="text-center p-6 rounded-2xl border border-white/5 bg-neutral-950/50">
+                    <div class="stat-number text-4xl md:text-5xl font-bold mb-2" data-target="40">0</div>
+                    <div class="text-neutral-500 text-xs font-medium tracking-wider uppercase">Happy Clients</div>
+                </div>
+                <div class="text-center p-6 rounded-2xl border border-white/5 bg-neutral-950/50">
+                    <div class="stat-number text-4xl md:text-5xl font-bold mb-2" data-target="100">0</div>
+                    <div class="text-neutral-500 text-xs font-medium tracking-wider uppercase">Satisfaction Rate</div>
+                </div>
+            </div>
+
+            <!-- Floating badge -->
+            <div class="flex justify-center mt-10 scroll-animate">
+                <div class="bg-[#0a0a0a] border border-white/10 rounded-xl p-5 float-animation pulse-glow inline-flex">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                            <span class="iconify text-red-500" data-icon="ph:rocket-launch-bold"></span>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold">Fast Delivery</div>
+                            <div class="text-xs text-neutral-500">7-14 days average turnaround</div>
                         </div>
                     </div>
                 </div>
@@ -323,69 +317,163 @@
                         <span class="iconify text-red-500 text-2xl" data-icon="ph:layout-bold"></span>
                     </div>
                     <h3 class="text-xl font-semibold tracking-tight mb-3">Website Design</h3>
-                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Stunning, conversion-focused designs that engage visitors from the first scroll.</p>
+                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Stunning, conversion-focused designs that communicate your brand story and engage visitors from the first scroll.</p>
                 </div>
                 <div class="service-card card-hover bg-neutral-950 border border-white/5 rounded-2xl p-8 scroll-animate">
                     <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
                         <span class="iconify text-red-500 text-2xl" data-icon="ph:code-bold"></span>
                     </div>
                     <h3 class="text-xl font-semibold tracking-tight mb-3">Web Development</h3>
-                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Clean, performant code built with modern technologies. Fast and SEO-optimized.</p>
+                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Clean, performant code built with modern technologies. Fast loading, responsive, and SEO-optimized from day one.</p>
                 </div>
                 <div class="service-card card-hover bg-neutral-950 border border-white/5 rounded-2xl p-8 scroll-animate">
                     <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
                         <span class="iconify text-red-500 text-2xl" data-icon="ph:paint-brush-bold"></span>
                     </div>
                     <h3 class="text-xl font-semibold tracking-tight mb-3">Brand Identity</h3>
-                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Logos and visual systems that make your brand recognizable and memorable.</p>
+                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Logos, color systems, and visual identity that make your brand recognizable and memorable across every touchpoint.</p>
+                </div>
+                <div class="service-card card-hover bg-neutral-950 border border-white/5 rounded-2xl p-8 scroll-animate">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                        <span class="iconify text-red-500 text-2xl" data-icon="ph:device-mobile-bold"></span>
+                    </div>
+                    <h3 class="text-xl font-semibold tracking-tight mb-3">Responsive Design</h3>
+                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Pixel-perfect experiences across every device — mobile, tablet, and desktop — because your audience is everywhere.</p>
+                </div>
+                <div class="service-card card-hover bg-neutral-950 border border-white/5 rounded-2xl p-8 scroll-animate">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                        <span class="iconify text-red-500 text-2xl" data-icon="ph:magnifying-glass-bold"></span>
+                    </div>
+                    <h3 class="text-xl font-semibold tracking-tight mb-3">SEO Optimization</h3>
+                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Technical SEO foundations, meta strategies, and performance tuning so your site ranks where it deserves to.</p>
+                </div>
+                <div class="service-card card-hover bg-neutral-950 border border-white/5 rounded-2xl p-8 scroll-animate">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-6">
+                        <span class="iconify text-red-500 text-2xl" data-icon="ph:arrows-clockwise-bold"></span>
+                    </div>
+                    <h3 class="text-xl font-semibold tracking-tight mb-3">Maintenance</h3>
+                    <p class="text-neutral-400 font-light leading-relaxed text-sm">Ongoing support, updates, and performance monitoring so your website stays fast, secure, and up-to-date.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Work Section -->
+    <!-- Work / Portfolio Section — Text List Style -->
     <section id="work" class="relative py-24 md:py-32 px-6">
         <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-16">
                 <span class="text-xs font-medium tracking-[0.2em] uppercase text-red-500 mb-4 block scroll-animate">Portfolio</span>
                 <h2 class="text-3xl md:text-5xl font-bold tracking-tight scroll-animate">Selected <span class="gradient-text">work</span></h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Project 1 AI Image -->
-                <div class="project-card rounded-2xl overflow-hidden aspect-[16/10] cursor-pointer scroll-animate">
-                    <img src="https://image.pollinations.ai/prompt/luxury-fashion-ecommerce-website-ui-ux-design-dark-minimalist-high-end-editorial-style?width=900&height=560&nologo=true" alt="Luxury Fashion" class="project-img w-full h-full object-cover">
-                    <div class="project-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-xs font-medium tracking-widest uppercase text-red-400 mb-2">E-Commerce</span>
-                        <h3 class="text-2xl font-bold tracking-tight mb-2">Luxury Fashion Store</h3>
-                        <p class="text-neutral-400 text-sm font-light">Custom product configurator with seamless UX</p>
+
+            <div class="scroll-animate">
+                <!-- Project 1 -->
+                <div class="project-row group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 py-8 border-t border-white/5 cursor-pointer">
+                    <span class="project-num text-neutral-700 text-sm font-mono transition-colors duration-300 flex-shrink-0 w-8">01</span>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500/60">E-Commerce</span>
+                        <h3 class="text-xl md:text-2xl font-bold tracking-tight mt-1 group-hover:text-white transition-colors">Luxury Fashion Store</h3>
+                        <p class="text-neutral-500 text-sm font-light mt-1 hidden md:block">Full-stack e-commerce with custom product configurator</p>
+                    </div>
+                    <span class="iconify project-arrow text-neutral-600 text-xl transition-all duration-300 flex-shrink-0" data-icon="ph:arrow-right-bold"></span>
+                </div>
+                <!-- Project 2 -->
+                <div class="project-row group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 py-8 border-t border-white/5 cursor-pointer">
+                    <span class="project-num text-neutral-700 text-sm font-mono transition-colors duration-300 flex-shrink-0 w-8">02</span>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500/60">SaaS Platform</span>
+                        <h3 class="text-xl md:text-2xl font-bold tracking-tight mt-1 group-hover:text-white transition-colors">Analytics Dashboard</h3>
+                        <p class="text-neutral-500 text-sm font-light mt-1 hidden md:block">Real-time data visualization with dark mode interface</p>
+                    </div>
+                    <span class="iconify project-arrow text-neutral-600 text-xl transition-all duration-300 flex-shrink-0" data-icon="ph:arrow-right-bold"></span>
+                </div>
+                <!-- Project 3 -->
+                <div class="project-row group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 py-8 border-t border-white/5 cursor-pointer">
+                    <span class="project-num text-neutral-700 text-sm font-mono transition-colors duration-300 flex-shrink-0 w-8">03</span>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500/60">Restaurant</span>
+                        <h3 class="text-xl md:text-2xl font-bold tracking-tight mt-1 group-hover:text-white transition-colors">Fine Dining Experience</h3>
+                        <p class="text-neutral-500 text-sm font-light mt-1 hidden md:block">Immersive storytelling with reservation system</p>
+                    </div>
+                    <span class="iconify project-arrow text-neutral-600 text-xl transition-all duration-300 flex-shrink-0" data-icon="ph:arrow-right-bold"></span>
+                </div>
+                <!-- Project 4 -->
+                <div class="project-row group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 py-8 border-t border-white/5 cursor-pointer">
+                    <span class="project-num text-neutral-700 text-sm font-mono transition-colors duration-300 flex-shrink-0 w-8">04</span>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500/60">Portfolio</span>
+                        <h3 class="text-xl md:text-2xl font-bold tracking-tight mt-1 group-hover:text-white transition-colors">Photography Studio</h3>
+                        <p class="text-neutral-500 text-sm font-light mt-1 hidden md:block">Minimal gallery with cinematic transitions</p>
+                    </div>
+                    <span class="iconify project-arrow text-neutral-600 text-xl transition-all duration-300 flex-shrink-0" data-icon="ph:arrow-right-bold"></span>
+                </div>
+                <!-- Project 5 -->
+                <div class="project-row group flex flex-col md:flex-row md:items-center gap-4 md:gap-8 py-8 border-t border-white/5 border-b cursor-pointer">
+                    <span class="project-num text-neutral-700 text-sm font-mono transition-colors duration-300 flex-shrink-0 w-8">05</span>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500/60">Web App</span>
+                        <h3 class="text-xl md:text-2xl font-bold tracking-tight mt-1 group-hover:text-white transition-colors">Fitness Tracking Platform</h3>
+                        <p class="text-neutral-500 text-sm font-light mt-1 hidden md:block">Progressive web app with offline-first architecture</p>
+                    </div>
+                    <span class="iconify project-arrow text-neutral-600 text-xl transition-all duration-300 flex-shrink-0" data-icon="ph:arrow-right-bold"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="relative py-24 md:py-32 px-6">
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium tracking-[0.2em] uppercase text-red-500 mb-4 block scroll-animate">Our Process</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight scroll-animate">From idea to <span class="gradient-text">launch</span></h2>
+            </div>
+            <div class="relative">
+                <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-white/5 md:-translate-x-px"></div>
+                <div class="relative flex flex-col md:flex-row items-start mb-16 scroll-animate">
+                    <div class="md:w-1/2 md:pr-12 md:text-right pl-16 md:pl-0">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500">Step 01</span>
+                        <h3 class="text-xl font-semibold tracking-tight mt-2 mb-3">Discovery & Strategy</h3>
+                        <p class="text-neutral-400 font-light text-sm leading-relaxed">We dive deep into your goals, audience, and competition to build a strategic foundation for your website.</p>
+                    </div>
+                    <div class="absolute left-3 md:left-1/2 top-1 w-7 h-7 rounded-full bg-[#050505] border-2 border-red-500 md:-translate-x-1/2 flex items-center justify-center">
+                        <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12"></div>
+                </div>
+                <div class="relative flex flex-col md:flex-row items-start mb-16 scroll-animate">
+                    <div class="md:w-1/2 md:pr-12"></div>
+                    <div class="absolute left-3 md:left-1/2 top-1 w-7 h-7 rounded-full bg-[#050505] border-2 border-red-500/60 md:-translate-x-1/2 flex items-center justify-center">
+                        <div class="w-2 h-2 rounded-full bg-red-500/60"></div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 pl-16">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500">Step 02</span>
+                        <h3 class="text-xl font-semibold tracking-tight mt-2 mb-3">Design & Prototype</h3>
+                        <p class="text-neutral-400 font-light text-sm leading-relaxed">High-fidelity designs crafted in Figma with interactive prototypes you can experience before any code is written.</p>
                     </div>
                 </div>
-                <!-- Project 2 AI Image -->
-                <div class="project-card rounded-2xl overflow-hidden aspect-[16/10] cursor-pointer scroll-animate">
-                    <img src="https://image.pollinations.ai/prompt/futuristic-saas-analytics-dashboard-user-interface-dark-mode-red-accents-clean-charts?width=900&height=560&nologo=true" alt="SaaS Platform" class="project-img w-full h-full object-cover">
-                    <div class="project-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-xs font-medium tracking-widest uppercase text-red-400 mb-2">SaaS Platform</span>
-                        <h3 class="text-2xl font-bold tracking-tight mb-2">Analytics Dashboard</h3>
-                        <p class="text-neutral-400 text-sm font-light">Real-time data visualization interface</p>
+                <div class="relative flex flex-col md:flex-row items-start mb-16 scroll-animate">
+                    <div class="md:w-1/2 md:pr-12 md:text-right pl-16 md:pl-0">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500">Step 03</span>
+                        <h3 class="text-xl font-semibold tracking-tight mt-2 mb-3">Development</h3>
+                        <p class="text-neutral-400 font-light text-sm leading-relaxed">Pixel-perfect implementation with clean code, smooth animations, and blazing-fast performance.</p>
                     </div>
-                </div>
-                <!-- Project 3 AI Image -->
-                <div class="project-card rounded-2xl overflow-hidden aspect-[16/10] cursor-pointer scroll-animate">
-                    <img src="https://image.pollinations.ai/prompt/elegant-fine-dining-restaurant-website-moody-lighting-minimalist-luxury-gastronomy?width=900&height=560&nologo=true" alt="Restaurant" class="project-img w-full h-full object-cover">
-                    <div class="project-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-xs font-medium tracking-widest uppercase text-red-400 mb-2">Restaurant</span>
-                        <h3 class="text-2xl font-bold tracking-tight mb-2">Fine Dining Experience</h3>
-                        <p class="text-neutral-400 text-sm font-light">Immersive storytelling with reservation system</p>
+                    <div class="absolute left-3 md:left-1/2 top-1 w-7 h-7 rounded-full bg-[#050505] border-2 border-red-500/40 md:-translate-x-1/2 flex items-center justify-center">
+                        <div class="w-2 h-2 rounded-full bg-red-500/40"></div>
                     </div>
+                    <div class="md:w-1/2 md:pl-12"></div>
                 </div>
-                <!-- Project 4 AI Image -->
-                <div class="project-card rounded-2xl overflow-hidden aspect-[16/10] cursor-pointer scroll-animate">
-                    <img src="https://image.pollinations.ai/prompt/professional-photography-portfolio-website-design-cinematic-gallery-minimal-black-aesthetic?width=900&height=560&nologo=true" alt="Portfolio" class="project-img w-full h-full object-cover">
-                    <div class="project-info absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-xs font-medium tracking-widest uppercase text-red-400 mb-2">Portfolio</span>
-                        <h3 class="text-2xl font-bold tracking-tight mb-2">Photography Studio</h3>
-                        <p class="text-neutral-400 text-sm font-light">Minimal gallery with cinematic transitions</p>
+                <div class="relative flex flex-col md:flex-row items-start scroll-animate">
+                    <div class="md:w-1/2 md:pr-12"></div>
+                    <div class="absolute left-3 md:left-1/2 top-1 w-7 h-7 rounded-full bg-[#050505] border-2 border-red-500/20 md:-translate-x-1/2 flex items-center justify-center">
+                        <div class="w-2 h-2 rounded-full bg-red-500/20"></div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 pl-16">
+                        <span class="text-xs font-medium tracking-widest uppercase text-red-500">Step 04</span>
+                        <h3 class="text-xl font-semibold tracking-tight mt-2 mb-3">Launch & Support</h3>
+                        <p class="text-neutral-400 font-light text-sm leading-relaxed">Rigorous testing, smooth deployment, and ongoing support to ensure your site performs flawlessly.</p>
                     </div>
                 </div>
             </div>
@@ -395,45 +483,113 @@
     <!-- Pricing Section -->
     <section id="pricing" class="relative py-24 md:py-32 px-6">
         <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-red-500/3 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
                 <span class="text-xs font-medium tracking-[0.2em] uppercase text-red-500 mb-4 block scroll-animate">Pricing</span>
                 <h2 class="text-3xl md:text-5xl font-bold tracking-tight scroll-animate">Transparent <span class="gradient-text">pricing</span></h2>
+                <p class="text-neutral-400 font-light mt-4 max-w-xl mx-auto scroll-animate">Choose the plan that fits your needs. Every project is custom-tailored, but here's a starting point.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="pricing-card bg-neutral-950 border border-white/5 rounded-2xl p-8 scroll-animate">
                     <span class="text-xs font-medium tracking-widest uppercase text-neutral-500">Starter</span>
-                    <div class="mt-4 mb-6"><span class="text-4xl font-bold">$499</span></div>
-                    <ul class="space-y-3 mb-8 text-sm text-neutral-300 font-light">
-                        <li>Up to 5 pages</li>
-                        <li>Mobile responsive</li>
-                        <li>Contact form</li>
-                        <li>Basic SEO</li>
+                    <div class="mt-4 mb-6">
+                        <span class="text-4xl font-bold">$499</span>
+                        <span class="text-neutral-500 text-sm font-light ml-1">one-time</span>
+                    </div>
+                    <div class="h-px bg-white/5 mb-6"></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Up to 5 pages</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Mobile responsive</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Contact form</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Basic SEO</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-500 font-light"><span class="iconify text-neutral-700 text-base flex-shrink-0" data-icon="ph:x-bold"></span>Custom animations</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-500 font-light"><span class="iconify text-neutral-700 text-base flex-shrink-0" data-icon="ph:x-bold"></span>CMS integration</li>
                     </ul>
-                    <a href="#contact" class="block text-center py-3 border border-white/10 text-xs font-semibold tracking-widest uppercase rounded hover:border-white/30 transition-all">Choose Plan</a>
+                    <a href="#contact" class="block text-center py-3 border border-white/10 text-white text-xs font-semibold tracking-widest uppercase rounded hover:border-white/30 transition-all duration-300">Choose Plan</a>
                 </div>
-                <div class="pricing-card bg-neutral-950 border border-red-500/20 rounded-2xl p-8 relative scroll-animate">
-                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-red-500 rounded-full text-[10px] font-bold tracking-widest uppercase">Most Popular</div>
+                <div class="pricing-card featured bg-neutral-950 border border-red-500/20 rounded-2xl p-8 relative scroll-animate">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-red-500 rounded-full text-[10px] font-bold tracking-widest uppercase text-white">Most Popular</div>
                     <span class="text-xs font-medium tracking-widest uppercase text-red-400">Professional</span>
-                    <div class="mt-4 mb-6"><span class="text-4xl font-bold">$999</span></div>
-                    <ul class="space-y-3 mb-8 text-sm text-neutral-300 font-light">
-                        <li>Up to 10 pages</li>
-                        <li>Custom animations</li>
-                        <li>CMS integration</li>
-                        <li>Advanced SEO</li>
+                    <div class="mt-4 mb-6">
+                        <span class="text-4xl font-bold">$999</span>
+                        <span class="text-neutral-500 text-sm font-light ml-1">one-time</span>
+                    </div>
+                    <div class="h-px bg-white/5 mb-6"></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Up to 10 pages</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Custom animations</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>CMS integration</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Advanced SEO</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>30 days support</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-500 font-light"><span class="iconify text-neutral-700 text-base flex-shrink-0" data-icon="ph:x-bold"></span>E-commerce</li>
                     </ul>
-                    <a href="#contact" class="block text-center py-3 bg-white text-black text-xs font-semibold tracking-widest uppercase rounded hover:bg-neutral-200 transition-all">Choose Plan</a>
+                    <a href="#contact" class="block text-center py-3 bg-white text-black text-xs font-semibold tracking-widest uppercase rounded hover:bg-neutral-200 transition-all duration-300">Choose Plan</a>
                 </div>
                 <div class="pricing-card bg-neutral-950 border border-white/5 rounded-2xl p-8 scroll-animate">
                     <span class="text-xs font-medium tracking-widest uppercase text-neutral-500">Enterprise</span>
                     <div class="mt-4 mb-6"><span class="text-4xl font-bold">Custom</span></div>
-                    <ul class="space-y-3 mb-8 text-sm text-neutral-300 font-light">
-                        <li>Unlimited pages</li>
-                        <li>E-commerce</li>
-                        <li>Custom web app</li>
-                        <li>90 days support</li>
+                    <div class="h-px bg-white/5 mb-6"></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Unlimited pages</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>E-commerce</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Custom web app</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Priority support</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>Brand identity</li>
+                        <li class="flex items-center gap-3 text-sm text-neutral-300 font-light"><span class="iconify text-red-500 text-base flex-shrink-0" data-icon="ph:check-bold"></span>90 days support</li>
                     </ul>
-                    <a href="#contact" class="block text-center py-3 border border-white/10 text-xs font-semibold tracking-widest uppercase rounded hover:border-white/30 transition-all">Contact Us</a>
+                    <a href="#contact" class="block text-center py-3 border border-white/10 text-white text-xs font-semibold tracking-widest uppercase rounded hover:border-white/30 transition-all duration-300">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="relative py-24 md:py-32 px-6">
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-medium tracking-[0.2em] uppercase text-red-500 mb-4 block scroll-animate">Testimonials</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight scroll-animate">What clients <span class="gradient-text">say</span></h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8 card-hover scroll-animate">
+                    <div class="flex items-center gap-1 mb-4">
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                    </div>
+                    <p class="text-neutral-300 font-light leading-relaxed mb-6">"Awnix completely transformed our online presence. The website they built is not just beautiful — it actually converts. Our inquiries doubled within the first month."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500/20 to-red-900/20 flex items-center justify-center flex-shrink-0">
+                            <span class="text-sm font-bold text-red-400">R</span>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold">Rahul Mehta</div>
+                            <div class="text-xs text-neutral-500">Founder, Nexus Studios</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8 card-hover scroll-animate">
+                    <div class="flex items-center gap-1 mb-4">
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                        <span class="iconify text-red-500" data-icon="ph:star-fill"></span>
+                    </div>
+                    <p class="text-neutral-300 font-light leading-relaxed mb-6">"Working with Awnix felt like having a senior design team in-house. They understood our vision instantly and delivered something beyond what we imagined."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500/20 to-red-900/20 flex items-center justify-center flex-shrink-0">
+                            <span class="text-sm font-bold text-red-400">P</span>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold">Priya Sharma</div>
+                            <div class="text-xs text-neutral-500">CEO, Bloom Wellness</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -442,38 +598,106 @@
     <!-- Contact Section -->
     <section id="contact" class="relative py-24 md:py-32 px-6">
         <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="max-w-5xl mx-auto relative">
             <div class="text-center mb-16">
                 <span class="text-xs font-medium tracking-[0.2em] uppercase text-red-500 mb-4 block scroll-animate">Get In Touch</span>
                 <h2 class="text-3xl md:text-5xl font-bold tracking-tight scroll-animate">Let's build something <span class="gradient-text">great</span></h2>
+                <p class="text-neutral-400 font-light mt-4 max-w-xl mx-auto scroll-animate">Have a project in mind? Drop us a message and we'll get back to you within 24 hours.</p>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
                 <div class="lg:col-span-2 space-y-8 scroll-animate">
-                    <a href="mailto:help.awnix@gmail.com" class="group flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-red-500/5 transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center"><span class="iconify text-red-500 text-lg" data-icon="ph:envelope-bold"></span></div>
-                        <div>
-                            <div class="text-xs text-neutral-500">Email</div>
-                            <div class="text-sm font-medium">help.awnix@gmail.com</div>
+                    <div>
+                        <h3 class="text-sm font-semibold tracking-widest uppercase text-neutral-400 mb-4">Contact Info</h3>
+                        <a href="mailto:help.awnix@gmail.com" class="group flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-red-500/5 transition-all duration-300">
+                            <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                                <span class="iconify text-red-500 text-lg" data-icon="ph:envelope-bold"></span>
+                            </div>
+                            <div>
+                                <div class="text-xs text-neutral-500 mb-0.5">Email</div>
+                                <div class="text-sm font-medium group-hover:text-red-400 transition-colors">help.awnix@gmail.com</div>
+                            </div>
+                        </a>
+                        <a href="https://instagram.com/awnix.visuals" target="_blank" rel="noopener" class="group flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-red-500/5 transition-all duration-300 mt-3">
+                            <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                                <span class="iconify text-red-500 text-lg" data-icon="ph:instagram-logo-bold"></span>
+                            </div>
+                            <div>
+                                <div class="text-xs text-neutral-500 mb-0.5">Instagram</div>
+                                <div class="text-sm font-medium group-hover:text-red-400 transition-colors">@awnix.visuals</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold tracking-widest uppercase text-neutral-400 mb-4">Follow Us</h3>
+                        <div class="flex items-center gap-3">
+                            <a href="https://instagram.com/awnix.visuals" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg border border-white/5 flex items-center justify-center hover:border-red-500/30 hover:bg-red-500/5 transition-all duration-300 group">
+                                <span class="iconify text-neutral-500 group-hover:text-red-400 transition-colors" data-icon="ph:instagram-logo-bold"></span>
+                            </a>
+                            <a href="mailto:help.awnix@gmail.com" class="w-10 h-10 rounded-lg border border-white/5 flex items-center justify-center hover:border-red-500/30 hover:bg-red-500/5 transition-all duration-300 group">
+                                <span class="iconify text-neutral-500 group-hover:text-red-400 transition-colors" data-icon="ph:envelope-bold"></span>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-lg border border-white/5 flex items-center justify-center hover:border-red-500/30 hover:bg-red-500/5 transition-all duration-300 group">
+                                <span class="iconify text-neutral-500 group-hover:text-red-400 transition-colors" data-icon="ph:twitter-logo-bold"></span>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-lg border border-white/5 flex items-center justify-center hover:border-red-500/30 hover:bg-red-500/5 transition-all duration-300 group">
+                                <span class="iconify text-neutral-500 group-hover:text-red-400 transition-colors" data-icon="ph:dribbble-logo-bold"></span>
+                            </a>
                         </div>
-                    </a>
-                    <a href="https://instagram.com/awnix.visuals" target="_blank" class="group flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:border-red-500/20 hover:bg-red-500/5 transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center"><span class="iconify text-red-500 text-lg" data-icon="ph:instagram-logo-bold"></span></div>
-                        <div>
-                            <div class="text-xs text-neutral-500">Instagram</div>
-                            <div class="text-sm font-medium">@awnix.visuals</div>
+                    </div>
+                    <div class="p-5 rounded-xl bg-neutral-950 border border-white/5">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            <span class="text-sm font-medium">Available for projects</span>
                         </div>
-                    </a>
+                        <p class="text-xs text-neutral-500 font-light">Average response time: under 24 hours</p>
+                    </div>
                 </div>
                 <div class="lg:col-span-3 scroll-animate">
                     <form id="contactForm" class="bg-neutral-950 border border-white/5 rounded-2xl p-8 space-y-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            <input type="text" name="name" required placeholder="Name" class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white">
-                            <input type="email" name="email" required placeholder="Email" class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white">
+                            <div>
+                                <label class="text-xs font-medium tracking-wider uppercase text-neutral-500 mb-2 block">Name *</label>
+                                <input type="text" name="name" required placeholder="John Doe" class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white placeholder:text-neutral-600 transition-all duration-300">
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium tracking-wider uppercase text-neutral-500 mb-2 block">Email *</label>
+                                <input type="email" name="email" required placeholder="john@example.com" class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white placeholder:text-neutral-600 transition-all duration-300">
+                            </div>
                         </div>
-                        <textarea name="message" required rows="5" placeholder="Project Details" class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white resize-none"></textarea>
-                        <button type="submit" id="submitBtn" class="w-full py-3.5 bg-white text-black text-xs font-semibold tracking-widest uppercase rounded-lg hover:bg-neutral-200 transition-all flex items-center justify-center gap-2">
-                            <span>Send Message</span>
-                            <span class="iconify" data-icon="ph:paper-plane-tilt-bold"></span>
+                        <div>
+                            <label class="text-xs font-medium tracking-wider uppercase text-neutral-500 mb-2 block">Project Type</label>
+                            <select name="type" class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white appearance-none cursor-pointer transition-all duration-300">
+                                <option value="" class="bg-neutral-900">Select a type...</option>
+                                <option value="business" class="bg-neutral-900">Business Website</option>
+                                <option value="ecommerce" class="bg-neutral-900">E-Commerce</option>
+                                <option value="portfolio" class="bg-neutral-900">Portfolio</option>
+                                <option value="landing" class="bg-neutral-900">Landing Page</option>
+                                <option value="webapp" class="bg-neutral-900">Web Application</option>
+                                <option value="redesign" class="bg-neutral-900">Website Redesign</option>
+                                <option value="other" class="bg-neutral-900">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium tracking-wider uppercase text-neutral-500 mb-2 block">Budget Range</label>
+                            <select name="budget" class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white appearance-none cursor-pointer transition-all duration-300">
+                                <option value="" class="bg-neutral-900">Select budget...</option>
+                                <option value="499" class="bg-neutral-900">$499 - $999</option>
+                                <option value="999" class="bg-neutral-900">$999 - $1,999</option>
+                                <option value="1999" class="bg-neutral-900">$1,999 - $4,999</option>
+                                <option value="5000" class="bg-neutral-900">$5,000+</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium tracking-wider uppercase text-neutral-500 mb-2 block">Project Details *</label>
+                            <textarea name="message" required rows="5" placeholder="Tell us about your project, goals, and timeline..." class="w-full bg-neutral-900 border border-white/5 rounded-lg px-4 py-3 text-sm text-white placeholder:text-neutral-600 resize-none transition-all duration-300"></textarea>
+                        </div>
+                        <button type="submit" id="submitBtn" class="w-full py-3.5 bg-white text-black text-xs font-semibold tracking-widest uppercase rounded-lg hover:bg-neutral-200 transition-all duration-300 flex items-center justify-center gap-2">
+                            <span id="btnText">Send Message</span>
+                            <span id="btnLoader" class="hidden">
+                                <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                            </span>
+                            <span class="iconify" data-icon="ph:paper-plane-tilt-bold" id="btnIcon"></span>
                         </button>
                     </form>
                 </div>
@@ -483,96 +707,149 @@
 
     <!-- Footer -->
     <footer class="relative border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 py-16 text-center">
-            <p class="text-xs text-neutral-600 font-light">&copy; 2026 Awnix Webs. Crafted with precision.</p>
+        <div class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <a href="#hero" class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                            <span class="iconify text-red-500 text-sm" data-icon="ph:code-bold"></span>
+                        </div>
+                        <span class="text-white font-bold text-lg tracking-tight">Awnix Webs<span class="text-red-500">.</span></span>
+                    </a>
+                    <p class="text-neutral-500 font-light text-sm leading-relaxed max-w-sm mb-6">Premium website design and development studio. We craft digital experiences that drive results for ambitious brands.</p>
+                    <div class="flex items-center gap-3">
+                        <a href="https://instagram.com/awnix.visuals" target="_blank" rel="noopener" class="w-9 h-9 rounded-lg border border-white/5 flex items-center justify-center hover:border-red-500/30 hover:bg-red-500/5 transition-all duration-300">
+                            <span class="iconify text-neutral-500 hover:text-red-400 text-sm" data-icon="ph:instagram-logo-bold"></span>
+                        </a>
+                        <a href="mailto:help.awnix@gmail.com" class="w-9 h-9 rounded-lg border border-white/5 flex items-center justify-center hover:border-red-500/30 hover:bg-red-500/5 transition-all duration-300">
+                            <span class="iconify text-neutral-500 hover:text-red-400 text-sm" data-icon="ph:envelope-bold"></span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-4">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-sm text-neutral-500 hover:text-white transition-colors duration-300">About</a></li>
+                        <li><a href="#services" class="text-sm text-neutral-500 hover:text-white transition-colors duration-300">Services</a></li>
+                        <li><a href="#work" class="text-sm text-neutral-500 hover:text-white transition-colors duration-300">Portfolio</a></li>
+                        <li><a href="#pricing" class="text-sm text-neutral-500 hover:text-white transition-colors duration-300">Pricing</a></li>
+                        <li><a href="#contact" class="text-sm text-neutral-500 hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-4">Reach Us</h4>
+                    <ul class="space-y-3">
+                        <li><a href="mailto:help.awnix@gmail.com" class="text-sm text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2"><span class="iconify text-xs" data-icon="ph:envelope"></span>help.awnix@gmail.com</a></li>
+                        <li><a href="https://instagram.com/awnix.visuals" target="_blank" rel="noopener" class="text-sm text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2"><span class="iconify text-xs" data-icon="ph:instagram-logo"></span>@awnix.visuals</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-neutral-600 font-light">&copy; 2026 Awnix Webs. All rights reserved.</p>
+                <p class="text-xs text-neutral-700 font-light">Crafted with precision & passion.</p>
+            </div>
         </div>
     </footer>
 
     <div id="toast" class="toast"></div>
 
     <script>
-        // Particle Background
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        const PARTICLE_COUNT = 60;
+        const CONNECTION_DIST = 100;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
         class Particle {
-            constructor() { this.reset(); this.y = Math.random() * canvas.height; }
+            constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 10;
-                this.size = Math.random() * 2;
-                this.alpha = Math.random() * 0.5;
+                this.y = Math.random() * canvas.height + canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.alpha = Math.random() * 0.5 + 0.1;
                 this.vx = (Math.random() - 0.5) * 0.5;
                 this.vy = -Math.random() * 1.5 - 0.2;
             }
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.y < -10) this.reset();
+                this.x += this.vx; this.y += this.vy;
+                if (this.y < -10 || this.x < -10 || this.x > canvas.width + 10) { this.reset(); this.y = canvas.height + 10; }
             }
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(239, 68, 68, ${this.alpha})`;
-                ctx.fill();
+                ctx.shadowBlur = 15; ctx.shadowColor = 'rgba(220, 38, 38, 0.5)';
+                ctx.fill(); ctx.shadowBlur = 0;
             }
         }
 
-        for (let i = 0; i < 60; i++) particles.push(new Particle());
+        for (let i = 0; i < PARTICLE_COUNT; i++) { const p = new Particle(); p.y = Math.random() * canvas.height; particles.push(p); }
 
-        function animate() {
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < CONNECTION_DIST) {
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(239, 68, 68, ${0.1 * (1 - dist / CONNECTION_DIST)})`; ctx.lineWidth = 0.5; ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
+            particles.forEach(p => { p.update(); p.draw(); }); drawConnections(); requestAnimationFrame(animateParticles);
         }
-        animate();
+        animateParticles();
 
-        // Navbar Scroll
+        const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(5,5,5,0.8)';
-                nav.style.backdropFilter = 'blur(10px)';
-            } else {
-                nav.style.background = 'transparent';
-                nav.style.backdropFilter = 'none';
-            }
+            if (window.pageYOffset > 50) {
+                navbar.style.background = 'rgba(5,5,5,0.85)'; navbar.style.backdropFilter = 'blur(12px)'; navbar.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            } else { navbar.style.background = 'transparent'; navbar.style.backdropFilter = 'none'; navbar.style.borderBottom = 'none'; }
         });
 
-        // Mobile Menu
-        const menuBtn = document.getElementById('menuBtn');
-        const closeMenu = document.getElementById('closeMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
+        const menuBtn = document.getElementById('menuBtn'), closeMenuBtn = document.getElementById('closeMenu'), mobileMenu = document.getElementById('mobileMenu');
         menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
-        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        closeMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
-        // Intersection Observer for animations
         const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('animate-reveal'); observer.unobserve(entry.target); } });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.scroll-animate').forEach(el => { el.style.opacity = '0'; observer.observe(el); });
+
+        const statObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-reveal');
+                    const el = entry.target, target = parseInt(el.dataset.target); let current = 0; const increment = target / 60;
+                    const timer = setInterval(() => { current += increment; if (current >= target) { current = target; clearInterval(timer); } el.textContent = Math.floor(current) + (target === 100 ? '%' : '+'); }, 20);
+                    statObserver.unobserve(el);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.stat-number[data-target]').forEach(el => statObserver.observe(el));
 
-        document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
+        function showToast(message, type = 'success') { const toast = document.getElementById('toast'); toast.textContent = message; toast.className = `toast toast-${type} show`; setTimeout(() => toast.classList.remove('show'), 4000); }
 
-        // Form Submit Simulation
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const toast = document.getElementById('toast');
-            toast.textContent = "Message sent successfully!";
-            toast.className = "toast toast-success show";
-            setTimeout(() => toast.classList.remove('show'), 3000);
-            e.target.reset();
+        const contactForm = document.getElementById('contactForm'), submitBtn = document.getElementById('submitBtn'), btnText = document.getElementById('btnText'), btnLoader = document.getElementById('btnLoader'), btnIcon = document.getElementById('btnIcon');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); const name = this.name.value.trim(), email = this.email.value.trim(), message = this.message.value.trim();
+            if (!name || !email || !message) { showToast('Please fill in all required fields.', 'error'); return; }
+            btnText.textContent = 'Sending...'; btnLoader.classList.remove('hidden'); btnIcon.classList.add('hidden'); submitBtn.disabled = true; submitBtn.style.opacity = '0.7';
+            setTimeout(() => { btnText.textContent = 'Send Message'; btnLoader.classList.add('hidden'); btnIcon.classList.remove('hidden'); submitBtn.disabled = false; submitBtn.style.opacity = '1'; contactForm.reset(); showToast('Message sent successfully! We\'ll get back to you soon.', 'success'); }, 2000);
+        });
+
+        const sections = document.querySelectorAll('section[id]'), navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = ''; sections.forEach(section => { if (pageYOffset >= section.offsetTop - 100) current = section.getAttribute('id'); });
+            navLinks.forEach(link => { link.classList.remove('text-white'); link.classList.add('text-neutral-400'); if (link.getAttribute('href') === '#' + current) { link.classList.add('text-white'); link.classList.remove('text-neutral-400'); } });
         });
     </script>
 </body>
